@@ -5,52 +5,36 @@ import { I18nProvider } from "@/i18n/provider";
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
+    { media: "(prefers-color-scheme: light)", color: "#1F3860" },
+    { media: "(prefers-color-scheme: dark)", color: "#1F3860" },
   ],
   width: "device-width",
   initialScale: 1,
 };
 
 export const metadata: Metadata = {
-  title: "AG Kit - AI Agent Capability Expansion Toolkit",
+  title: "Sınav Zarfı Teslim Tutanağı Editörü | İESU",
   description:
-    "A comprehensive collection of 47 skills, 20 specialist agents, rules, and production-ready workflows for modern AI coding assistants.",
-  metadataBase: new URL("https://ag-kit.unikorn.vn/"),
+    "İstanbul Esenyurt Üniversitesi Sınav Zarfı Teslim Tutanağı Otomatik Form Doldurma, Canlı A4 Önizleme ve Word (.docx) Çıktı Sistemi.",
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/images/logo.svg", type: "image/svg+xml" },
+      { url: "/images/iesu-icon.svg", type: "image/svg+xml" },
     ],
-    apple: [{ url: "/images/logo.png", sizes: "1024x1024", type: "image/png" }],
+    apple: [
+      { url: "/images/iesu-icon.svg", type: "image/svg+xml" },
+    ],
   },
   robots: {
     index: true,
     follow: true,
   },
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     type: "website",
-    locale: "en_US",
-    url: "https://ag-kit.unikorn.vn/",
-    siteName: "AG Kit",
-    images: [
-      {
-        url: "/images/og-image.png",
-        width: 1280,
-        height: 640,
-        alt: "AG Kit — Antigravity agent engineering kit",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "AG Kit - AI Agent Capability Expansion Toolkit",
+    locale: "tr_TR",
+    title: "Sınav Zarfı Teslim Tutanağı Editörü | İESU",
     description:
-      "Skills, specialist agents, rules, and production-ready workflows for modern AI coding assistants.",
-    images: ["/images/og-image.png"],
+      "İstanbul Esenyurt Üniversitesi Sınav Zarfı Teslim Tutanağı Otomatik Form Doldurma ve Word İndirme Sistemi.",
+    siteName: "EnvFiller",
   },
 };
 
@@ -60,10 +44,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className="antialiased"
-      >
+    <html lang="tr" suppressHydrationWarning>
+      <body className="antialiased">
         <a
           href="#main-content"
           className="sr-only fixed left-4 top-4 z-[100] rounded-md bg-primary px-4 py-2 text-primary-foreground shadow focus:not-sr-only"
@@ -72,7 +54,7 @@ export default function RootLayout({
         </a>
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
