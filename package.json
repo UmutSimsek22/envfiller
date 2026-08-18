@@ -1,0 +1,38 @@
+{
+  "name": "envfiller",
+  "version": "1.0.0",
+  "description": "Exam Envelope Delivery Protocol Form Editor with Real-Time A4 Live Preview and Client-Side Word (.docx) Generation for Istanbul Esenyurt University.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UmutSimsek22/envfiller.git"
+  },
+  "homepage": "https://github.com/UmutSimsek22/envfiller#readme",
+  "bugs": {
+    "url": "https://github.com/UmutSimsek22/envfiller/issues"
+  },
+  "keywords": [
+    "envfiller",
+    "nextjs",
+    "react",
+    "typescript",
+    "tailwindcss",
+    "docx",
+    "docxtemplater",
+    "forms",
+    "live-preview",
+    "university"
+  ],
+  "author": "Umut Simsek",
+  "license": "MIT",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "npm --prefix web run dev",
+    "build": "npm --prefix web run build",
+    "start": "npm --prefix web run start",
+    "lint": "npm --prefix web run lint",
+    "typecheck": "npm --prefix web run typecheck"
+  }
+}
