@@ -3,6 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
+import { pathToFileURL } from 'node:url';
 
 function parseArgs(argv) {
   const options = {root: process.cwd(), json: false, strict: false};
@@ -22,12 +23,12 @@ function readJson(file) {
 }
 
 function frontmatter(file) {
-  const text = fs.readFileSync(file, 'utf8');
+  const text = fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n');
   if (!text.startsWith('---\n')) return null;
   const end = text.indexOf('\n---\n', 4);
   if (end < 0) return null;
   const data = {};
-  for (const line of text.slice(4, end).split(/\r?\n/)) {
+  for (const line of text.slice(4, end).split('\n')) {
     const match = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
     if (!match) continue;
     data[match[1]] = match[2].trim().replace(/^['"]|['"]$/g, '');
@@ -262,7 +263,7 @@ function printHuman(report) {
   console.log(report.passed ? '[PASS] Antigravity contract is ready.' : '[FAIL] Antigravity contract has blocking findings.');
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   try {
     const options = parseArgs(process.argv.slice(2));
     if (options.help) {

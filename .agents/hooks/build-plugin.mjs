@@ -4,6 +4,7 @@ import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
+import { pathToFileURL } from 'node:url';
 
 function parseArgs(argv) {
   const options = {root: process.cwd(), output: null};
@@ -18,24 +19,30 @@ function parseArgs(argv) {
 
 function copyTree(source, destination) {
   if (!fs.existsSync(source)) return 0;
-  fs.cpSync(source, destination, {recursive: true});
   let count = 0;
-  const visit = dir => {
-    for (const entry of fs.readdirSync(dir, {withFileTypes: true})) {
-      const full = path.join(dir, entry.name);
-      if (entry.isDirectory()) visit(full);
-      else count += 1;
+  function copyRecursive(src, dest) {
+    const stats = fs.statSync(src);
+    if (stats.isDirectory()) {
+      fs.mkdirSync(dest, { recursive: true });
+      for (const entry of fs.readdirSync(src)) {
+        copyRecursive(path.join(src, entry), path.join(dest, entry));
+      }
+    } else {
+      fs.mkdirSync(path.dirname(dest), { recursive: true });
+      fs.copyFileSync(src, dest);
+      count += 1;
     }
-  };
-  visit(source);
+  }
+  copyRecursive(source, destination);
   return count;
 }
 
 function frontmatterDescription(text) {
-  if (!text.startsWith('---\n')) return '';
-  const end = text.indexOf('\n---\n', 4);
+  const normalized = text.replace(/\r\n/g, '\n');
+  if (!normalized.startsWith('---\n')) return '';
+  const end = normalized.indexOf('\n---\n', 4);
   if (end < 0) return '';
-  const line = text.slice(4, end).split(/\r?\n/).find(item => item.startsWith('description:'));
+  const line = normalized.slice(4, end).split('\n').find(item => item.startsWith('description:'));
   return line ? line.slice('description:'.length).trim().replace(/^['"]|['"]$/g, '') : '';
 }
 
@@ -117,7 +124,7 @@ export function buildPlugin(root, output) {
   return manifest;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   try {
     const options = parseArgs(process.argv.slice(2));
     const manifest = buildPlugin(options.root, options.output);
